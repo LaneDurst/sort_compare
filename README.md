@@ -4,9 +4,9 @@ This repository serves as a personal refresher on my understanding of sorting al
 Currently, all of these algorithms will be implmeneted in C, though I plan to later implement them in various other programming languages as well.
 
 ## Currently Implemented
+- Bubble Sort
 
 ## To Be Implemented.
-- Bubble Sort
 - Selection Sort
 - Insertion Sort
 - Merge Sort
