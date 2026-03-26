@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <time.h>
+#include <string.h>
 
 void printArray(int a[], int arrSize){
     printf("[");
@@ -11,7 +12,17 @@ void printArray(int a[], int arrSize){
     printf("%d]\n", a[arrSize-1]);
 }
 
-int* bubbleSort(int a[], int arrSize){
+bool isSorted(int a[], int arrSize){
+    for (int i = 0; i < arrSize-1; i++){
+        if (a[i] > a[i+1]) return false;
+    }
+    return true;
+}
+
+void bubbleSort(int nums[], int arrSize){
+    int a[arrSize];
+    memcpy(a, nums, sizeof(nums[0])*arrSize);
+
     for (int i = 0; i < arrSize; i++){
         int end = arrSize-i;
         bool noSwaps = true;
@@ -29,35 +40,64 @@ int* bubbleSort(int a[], int arrSize){
         if (noSwaps) break;
     }
 
-    return a;
-
+    if(!isSorted(a, arrSize)){
+        printf("[ERROR] INCORRECT SORT: Bubble Sort\n");
+        printArray(a, arrSize);
+        exit(1);
+    }
 }
 
-bool isSorted(int a[], int arrSize){
+void selectionSort(int nums[], int arrSize){
+    int a[arrSize];
+    memcpy(a, nums, sizeof(nums[0])*arrSize);
+
     for (int i = 0; i < arrSize-1; i++){
-        if (a[i] > a[i+1]) return false;
+        int minIndex = i;
+        int minValue = a[i];
+        for (int j = i; j < arrSize; j++){
+            if (a[j] < minValue){
+                minValue = a[j];
+                minIndex = j;
+            }
+        }
+        a[minIndex] = a[i];
+        a[i] = minValue;
     }
-    return true;
+
+    if(!isSorted(a, arrSize)){
+        printf("[ERROR] INCORRECT SORT: Selection Sort\n");
+        printArray(a, arrSize);
+        exit(1);
+    } 
 }
 
 int main(){
-    // TODO: actually read user input
     printf("[CAUTION] large n values may cause the program to hang\nEnter a value for n: ");
-    printf("\n");
-    int n = 15;
-    int nums[100];
+    int n;
+    scanf("%d", &n);
+    int nums[n];
 
+    printf("generating a %d random number array ...\n", n);
     srand(time(NULL));
     for (int i = 0; i < n; i++){
         nums[i] = rand() % 100;
     }
 
     // Bubble Sort
+    printf("Beginning Bubble Sort");
+    fflush(stdout);
     clock_t begin = clock();
-    int* bubbleSorted = bubbleSort(nums, n);
+    bubbleSort(nums, n);
     clock_t end = clock();
-    if (!isSorted(bubbleSorted, n)) {printf("ERROR, INCORRECT SORT: BUBLE SORT"); exit(1);}
-    printf("Bubble Sort: ran in %f seconds\n", (double)(end-begin)/ CLOCKS_PER_SEC);
+    printf("\rBubble Sort: ran in %.2f seconds\n", (double)(end-begin)/ CLOCKS_PER_SEC);
+
+    // Selection Sort
+    printf("Beginning Selection Sort");
+    fflush(stdout);
+    begin = clock();
+    selectionSort(nums, n);
+    end = clock();
+    printf("\rSelection Sort: ran in %.2f seconds\n", (double)(end-begin)/ CLOCKS_PER_SEC);
 
     return 0;
 }
