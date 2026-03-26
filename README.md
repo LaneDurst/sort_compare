@@ -5,9 +5,9 @@ Currently, all of these algorithms will be implmeneted in C, though I plan to la
 
 ## Currently Implemented
 - Bubble Sort
+- Selection Sort
 
 ## To Be Implemented.
-- Selection Sort
 - Insertion Sort
 - Merge Sort
 - Quick Sort
